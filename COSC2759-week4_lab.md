@@ -95,6 +95,12 @@ Commit and push the branch to GitHub and then open a PR to `main` to watch it ru
 
       - name: Run Unit Tests
         run: npm run test:ci
+        
+      - if: success() || failure() 
+        uses: actions/upload-artifact@v7 
+        with: 
+          name: unit-test-${{ github.sha }} 
+          path: coverage/lcov-report
 ```
 
 In the above job we run the test:ci step against our codebase. Sometimes we would generate output files that we wish to keep, in which case we could upload the report as an artifact so we could refer to it later. The code for that is below: 
